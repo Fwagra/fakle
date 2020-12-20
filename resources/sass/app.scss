@@ -1,1 +1,39 @@
-//
+* {
+  box-sizing: border-box;
+}
+.tiles {
+  display: flex;
+  flex-wrap: wrap;
+}
+.tile{
+  width: 50px;
+  height: 50px;
+  border: #444 1px solid;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.tile-1 {
+  background: rgb(194, 72, 72);
+}
+
+.tile-2 {
+  background: rgb(182, 194, 72);
+}
+
+.tile-1 {
+  background: rgb(96, 194, 72);
+}
+
+.tile-1 {
+  background: rgb(72, 100, 194);
+}
+
+.tile-1 {
+  background: rgb(190, 72, 194);
+}
+
+.tile-1 {
+  background: rgb(194, 107, 72);
+}

@@ -3,6 +3,7 @@
 use App\Game;
 use App\Tile;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\TestController;
 
 /*
 |--------------------------------------------------------------------------
@@ -44,3 +45,6 @@ Route::get('launch', function(){
     $firstTile->save();
     dump($firstTile);
 });
+
+Route::get('tests/game/{code}', [TestController::class, 'boardgame']);
+
