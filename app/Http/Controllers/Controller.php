@@ -10,4 +10,12 @@ use Illuminate\Routing\Controller as BaseController;
 class Controller extends BaseController
 {
     use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+
+    /**
+     * Wrapper for JSON errors
+     */
+    public function JSONerror($message, $code = 422)
+    {
+        return response()->json(['message' => $message, 'errors' =>[$message]], $code);
+    }
 }
