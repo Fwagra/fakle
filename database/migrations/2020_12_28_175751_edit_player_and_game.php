@@ -14,7 +14,7 @@ class EditPlayerAndGame extends Migration
     public function up()
     {
         Schema::table('players', function (Blueprint $table) {
-            $table->integer('order');
+            $table->integer('order')->nullable();
         });
         Schema::table('games', function (Blueprint $table) {
             $table->string('code', 100)->change();

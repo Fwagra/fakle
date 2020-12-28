@@ -4,11 +4,66 @@ namespace App\Http\Controllers;
 
 use App\Game;
 use App\Tile;
+use App\Player;
 use App\Boardgame;
+use Faker\Factory;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class ApiController extends Controller
 {
+
+    public function launchGame(Request $request)
+    {
+        $this->validate($request,[
+            'player_name' => 'required|string',
+        ]);
+
+        // Generate the game's code
+        $faker = Factory::create(); 
+        $code = $faker->colorName .'-'. $faker->colorName .'-'. $faker->colorName;
+        
+        
+        DB::transaction(function () use ($request, $code) {
+
+            // Create the game
+            $game = new Game;
+            $game->code = $code;
+            $game->save();
+
+            // Generate the tiles for the game
+            for ($color=1; $color < 7; $color++) { 
+                for ($shape=1; $shape < 7; $shape++) { 
+                    for ($i=0; $i < 3; $i++) { 
+                        $tile = new Tile;
+                        $tile->color = $color;
+                        $tile->shape = $shape;
+                        $tile->position_x = null;
+                        $tile->position_y = null;
+                        $tile->game_id = $game->id;
+                        $tile->save();
+                    }
+                }
+            }
+
+            // Randomly select a tile as the first one
+            $firstTile = $game->tiles()->inRandomOrder()->first();
+            $firstTile->position_x = 0;
+            $firstTile->position_y = 0;
+            $firstTile->save();
+
+            // Create the player and bind it to the game
+            $player = new Player;
+            $player->name = $request->input('player_name');
+            $player->game_id = $game->id;
+            $player->save();
+        });
+
+        return  response()->json($code);
+    }
+    /**
+     * Endpoint handling a new tile(s) added to the boardgame by a player
+     */
     public function playTile(Request $request)
     {
         // @TODO: Get user and game from token

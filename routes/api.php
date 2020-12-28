@@ -21,3 +21,4 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 
 Route::post('/play-tile', [ApiController::class, 'playTile']);
+Route::post('/launch-game', [ApiController::class, 'launchGame']);
