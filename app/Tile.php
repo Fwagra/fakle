@@ -30,7 +30,7 @@ class Tile extends Model
      */
     public function scopeMinX($query)
     {
-        return $query->orderBy('position_x', "asc")->first();
+        return $query->where('position_x', '!=', null)->where('position_x', '!=', null)->orderBy('position_x', "asc")->first();
     }
 
     /** 
@@ -38,7 +38,7 @@ class Tile extends Model
     */
     public function scopeMinY($query)
     {
-        return $query->orderBy('position_y', "asc")->first();
+        return $query->where('position_y', '!=', null)->orderBy('position_y', "asc")->first();
     }
 
     /** 
@@ -46,7 +46,7 @@ class Tile extends Model
      */
     public function scopeMaxX($query)
     {
-        return $query->orderBy('position_x', "desc")->first();
+        return $query->where('position_x', '!=', null)->orderBy('position_x', "desc")->first();
     }
 
     /** 
@@ -54,6 +54,6 @@ class Tile extends Model
     */
     public function scopeMaxY($query)
     {
-        return $query->orderBy('position_y', "desc")->first();
+        return $query->where('position_y', '!=', null)->orderBy('position_y', "desc")->first();
     }
 }
