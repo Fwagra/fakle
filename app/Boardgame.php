@@ -5,7 +5,7 @@ namespace App;
 use Illuminate\Support\Facades\Log;
 
 class Boardgame {
-    
+
     // Define position modificators for each direction
     protected $directions = [
         'up' => ['x' => -1, 'y' => 0],
@@ -13,7 +13,7 @@ class Boardgame {
         'down' => ['x' => 1, 'y' => 0],
         'left' => ['x' => 0, 'y' => -1],
     ];
-    
+
     // Define the type of directions
     protected $directionTypes = [
         'up' => 'vertical',
@@ -26,12 +26,12 @@ class Boardgame {
         'color',
         'shape'
     ];
-    
+
     public function __construct($tiles)
     {
         $this->boardgame = $tiles;
     }
-    
+
     /**
     * Check if a tile is set on the provided position.
     */
@@ -47,14 +47,14 @@ class Boardgame {
     {
         $this->boardgame[$tile->position_x][$tile->position_y] = $tile;
     }
-    
+
     /**
     * Check if there are direct neighbours for a provided position and return them.
     */
-    public function getNeighbours($tile)     
+    public function getNeighbours($tile)
     {
         $tiles = [];
-        
+
         foreach($this->directions as $direction => $modificator) {
             // Define initial tile
             $neighbourX = $tile->position_x;
@@ -65,7 +65,7 @@ class Boardgame {
             $neighbourY += $modificator['y'];
             // If there is a tile,  save it
             while(isset($this->boardgame[$neighbourX][$neighbourY])){
-                
+
                 $tiles[$this->directionTypes[$direction]][] = $this->boardgame[$neighbourX][$neighbourY];
 
                 //Search the next tile
@@ -79,7 +79,7 @@ class Boardgame {
 
     /**
      * Check if a tile can be played according to its neighbours.
-     */ 
+     */
     public function isPlayable($tile, $neighbours)
     {
 
@@ -89,7 +89,7 @@ class Boardgame {
             if(count($direction) == 1) {
                 $neighbour = $direction[0];
                 // Return true if shape OR color are the same, but not both.
-                if (($neighbour->shape == $tile->shape AND $neighbour->color == $tile->color) OR 
+                if (($neighbour->shape == $tile->shape AND $neighbour->color == $tile->color) OR
                 ($neighbour->shape != $tile->shape AND $neighbour->color != $tile->color)) {
                     return false;
                 }
@@ -129,7 +129,7 @@ class Boardgame {
         foreach($this->types as $type) {
 
             // Store the first ID we find. If it changes during the loop, the current type is not our block's type.
-            $currentId = 0; 
+            $currentId = 0;
             foreach($block as $tile) {
                 if($currentId === 0) {
                     $currentId = $tile->{$type};
@@ -182,6 +182,6 @@ class Boardgame {
         $mainType = array_search($type,$types);
         unset($types[$mainType]);
 
-        return $types[0];
+        return array_shift($types);
     }
 }
